@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div class="card col-12">
+    <h3>Nova conta bancária</h3>
+    <form class="form" method="post" action="{{ url_for('contas_create') }}">
+      <input class="input col-8" name="name" placeholder="Nome da conta (ex: Banco X, Dinheiro...)" required>
+      <input class="input col-4" name="opening_balance" type="number" step="0.01" placeholder="Saldo inicial" required>
+      <div class="col-12 split">
+        <button class="btn" type="submit">Criar conta</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card col-12">
+    <h3>Contas</h3>
+    <table class="table">
+      <thead><tr><th>ID</th><th>Conta</th><th>Saldo</th></tr></thead>
+      <tbody>
+        {% for a in contas %}
+          <tr><td>{{ a.uid }}</td><td>{{ a.name }}</td><td>R$ {{ "%.2f"|format(a.balance) }}</td></tr>
+        {% endfor %}
+        {% if not contas %}
+          <tr><td colspan="3"><small>Nenhuma conta criada ainda.</small></td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card col-12">
+    <h3>Últimos lançamentos (dinheiro real)</h3>
+    <table class="table">
+      <thead><tr><th>ID</th><th>Conta</th><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
+      <tbody>
+        {% for t in ultimas %}
+        <tr>
+          <td>{{ t.uid }}</td>
+          <td>{{ t.account.name }}</td>
+          <td>{{ t.description }}</td>
+          <td>R$ {{ "%.2f"|format(t.amount) }}</td>
+          <td>{{ t.tdate }}</td>
+        </tr>
+        {% endfor %}
+        {% if not ultimas %}
+          <tr><td colspan="5"><small>Nenhum lançamento ainda (eles surgem quando você paga/recebe pendências).</small></td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
