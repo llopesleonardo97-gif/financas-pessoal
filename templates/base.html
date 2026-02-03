@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title or "Financeiro Pessoal" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <div>
+          <h1>Financeiro Pessoal</h1>
+          <p>branco + dourado • v1</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="{{ url_for('dashboard') }}" class="{{ 'active' if active=='dashboard' else '' }}"><span class="dot"></span> Dashboard</a>
+        <a href="{{ url_for('pendencias') }}" class="{{ 'active' if active=='pendencias' else '' }}"><span class="dot"></span> Pendências</a>
+        <a href="{{ url_for('contas') }}" class="{{ 'active' if active=='contas' else '' }}"><span class="dot"></span> Contas bancárias</a>
+        <a href="{{ url_for('cartoes') }}" class="{{ 'active' if active=='cartoes' else '' }}"><span class="dot"></span> Cartões</a>
+        <a href="{{ url_for('credores') }}" class="{{ 'active' if active=='credores' else '' }}"><span class="dot"></span> Credores</a>
+        <a href="{{ url_for('veiculos') }}" class="{{ 'active' if active=='veiculos' else '' }}"><span class="dot"></span> Veículos</a>
+        <a href="{{ url_for('documentos') }}" class="{{ 'active' if active=='documentos' else '' }}"><span class="dot"></span> Documentos</a>
+        <a href="{{ url_for('relatorios') }}" class="{{ 'active' if active=='relatorios' else '' }}"><span class="dot"></span> Relatórios</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span>Logado: {{ current_user.username }}</span>
+        <a href="{{ url_for('logout') }}" style="color:var(--gold);font-weight:900;">Sair</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="title">
+          <h2>{{ header or "Painel" }}</h2>
+          <p>{{ subtitle or "" }}</p>
+        </div>
+        {% block top_actions %}{% endblock %}
+      </div>
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>
