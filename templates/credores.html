@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div class="card col-12">
+    <h3>Novo credor</h3>
+    <form class="form" method="post" action="{{ url_for('credores_create') }}">
+      <input class="input col-8" name="name" placeholder="Nome (Enel, Banco, Imobiliária...)" required>
+      <select class="input col-4" name="ctype" required>
+        <option value="EMPRESA">Empresa</option>
+        <option value="PESSOA">Pessoa</option>
+        <option value="BANCO">Banco</option>
+      </select>
+      <div class="col-12 split">
+        <button class="btn" type="submit">Salvar credor</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card col-12">
+    <h3>Credores cadastrados</h3>
+    <table class="table">
+      <thead><tr><th>ID</th><th>Nome</th><th>Tipo</th></tr></thead>
+      <tbody>
+        {% for c in credores %}
+          <tr><td>{{ c.uid }}</td><td>{{ c.name }}</td><td>{{ c.ctype }}</td></tr>
+        {% endfor %}
+        {% if not credores %}
+          <tr><td colspan="3"><small>Nenhum credor cadastrado ainda.</small></td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
