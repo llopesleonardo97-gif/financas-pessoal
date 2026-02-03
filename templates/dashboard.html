@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div class="card col-4">
+    <h3>Saldo (todas as contas)</h3>
+    <div class="kpi">R$ {{ "%.2f"|format(kpis.saldo_total) }}<small>base v1</small></div>
+  </div>
+  <div class="card col-4">
+    <h3>Pendências em aberto</h3>
+    <div class="kpi">{{ kpis.pendencias_abertas }}<small>a pagar/receber/empréstimos</small></div>
+  </div>
+  <div class="card col-4">
+    <h3>Credores cadastrados</h3>
+    <div class="kpi">{{ kpis.credores }}<small>empresas / bancos / pessoas</small></div>
+  </div>
+
+  <div class="card col-12">
+    <h3>Últimas movimentações</h3>
+    <table class="table">
+      <thead>
+        <tr><th>ID</th><th>Conta</th><th>Descrição</th><th>Valor</th><th>Data</th></tr>
+      </thead>
+      <tbody>
+        {% for t in ultimas %}
+        <tr>
+          <td>{{ t.uid }}</td>
+          <td>{{ t.account.name }}</td>
+          <td>{{ t.description }}</td>
+          <td>R$ {{ "%.2f"|format(t.amount) }}</td>
+          <td>{{ t.tdate }}</td>
+        </tr>
+        {% endfor %}
+        {% if not ultimas %}
+        <tr><td colspan="5"><small>Nenhuma movimentação ainda.</small></td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
